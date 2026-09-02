@@ -260,6 +260,25 @@ body.locked #gate{display:flex}
 .probe-card h4{font-size:15px;font-weight:800;margin:0 0 6px;color:#6b5a2a}
 .probe-card p{font-size:13px;color:#6b5a2a;margin:0 0 10px;line-height:1.7}
 .probe-btn{display:inline-block;background:var(--red);color:#fff;font-size:13px;font-weight:700;padding:8px 16px;border-radius:8px;text-decoration:none}
+
+/* probe modal */
+#pmOv{position:fixed;inset:0;background:rgba(15,17,21,.55);backdrop-filter:blur(3px);z-index:300;display:none;align-items:center;justify-content:center;padding:22px}
+#pmOv.show{display:flex}
+#pmBox{background:#fff;border-radius:16px;max-width:520px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.32);overflow:hidden;animation:pmIn .18s ease}
+@keyframes pmIn{from{transform:translateY(10px);opacity:.6}to{transform:none;opacity:1}}
+#pmBox .pmbar{height:3px;background:var(--red)}
+#pmBox .pmin{padding:24px 26px 22px}
+#pmTag{font-size:11px;font-weight:800;letter-spacing:1.2px;color:var(--red)}
+#pmTitle{font-size:19px;font-weight:800;margin:6px 0 10px;line-height:1.35}
+#pmDesc{font-size:13.5px;color:#3d4650;line-height:1.7;margin-bottom:12px}
+#pmList{list-style:none;margin:0 0 16px;padding:0}
+#pmList li{font-size:13px;color:#3d4650;line-height:1.65;padding-left:20px;position:relative;margin-bottom:7px}
+#pmList li:before{content:"";position:absolute;left:2px;top:7px;width:7px;height:7px;border-radius:2px;background:var(--red);transform:rotate(45deg)}
+.pmNote{font-size:12px;color:var(--grey);background:#f5f6f8;border-radius:9px;padding:10px 12px;line-height:1.6;margin-bottom:16px}
+.pmAct{display:flex;gap:10px;align-items:center}
+.pmAct .pmGo{flex:1;text-align:center;background:var(--red);color:#fff;font-size:14px;font-weight:700;padding:11px 16px;border-radius:9px;text-decoration:none}
+.pmAct .pmGo:hover{filter:brightness(1.08)}
+.pmAct .pmNo{flex:none;background:#f2f3f5;color:#5b636d;border:1px solid var(--line);font-size:13px;font-weight:600;padding:11px 16px;border-radius:9px;cursor:pointer}
 @media print{.sidebar,.langbtn,#tourTip,.ticker{display:none!important}.layout{display:block}body{font-size:12px}section{break-inside:avoid-page;margin-top:28px}.wm{display:none}}
 </style><script defer src="https://cloud.umami.is/script.js" data-website-id="9449af3e-e546-4f42-848b-d853517f00fd"></script>
 </head><body><div id="gate"><div class="gate-card" id="gateCard"><div class="g-bar"></div><div class="g-logo" id="gLogo"></div>
@@ -732,16 +751,55 @@ var TRQD={"rows":[["1A","Türkiye","土耳其","csq",642294.94,321749.25,320545.
  if(typeof renderData==='function'){var _rd=renderData;renderData=function(){_rd();renderA();};}
  renderA();
 })();
-</script><script>
+</script><div id="pmOv"><div id="pmBox"><div class="pmbar"></div><div class="pmin"><div id="pmTag">SMM DATA & ADVISORY</div><div id="pmTitle"></div><div id="pmDesc"></div><ul id="pmList"></ul><div class="pmNote" id="pmNote"></div><div class="pmAct"><a class="pmGo" id="pmGo" href="#" target="_blank" rel="noopener"></a><button class="pmNo" id="pmNo"></button></div></div></div><script>
 (function(){
  var FORM="https://docs.google.com/forms/d/e/1FAIpQLSeteVFIYMrIk9cEynmtmdDg6V1Rr3lo8HiueNxTikzMPSHuQw/viewform";
- var probes={pb1:'probe_route_comparison',pb2:'probe_quota_trend',pb3:'probe_price_subscription'};
- Object.keys(probes).forEach(function(id){
+ function T(z,e){return (typeof LANG!=='undefined'&&LANG==='en')?e:z;}
+ function track(n){try{if(window.umami&&window.umami.track)window.umami.track(n);}catch(e){}}
+ var C={
+  pb1:{key:'route_comparison',
+   t:['多原产地 · 路线成本对比','Multi-origin & route cost comparison'],
+   d:['同一批货,换个原产国或换条工艺路线,CBAM 成本可能差出几倍。SMM 可基于官方数据为您做定制对比。',
+      'For the same shipment, a different origin or process route can change the CBAM cost several-fold. SMM can build a tailored comparison from official data.'],
+   l:[['同批货在多个原产国的 CBAM 成本并列对比','Side-by-side CBAM cost across candidate origins'],
+      ['废钢电炉 vs 高炉转炉的成本差与可行性','Scrap-EAF vs BF-BOF: cost gap and feasibility'],
+      ['做实测核证值不值:投入 vs 每年可省','Is verification worth it: cost vs annual saving']]},
+  pb2:{key:'quota_trend',
+   t:['配额消耗趋势与用尽预警','Quota draw-down trends & run-out alerts'],
+   d:['配额是先到先得——用尽后关税从 0 跳到 50%。提前知道哪条配额快用完,就能决定什么时候发货。',
+      'Quotas are first-come, first-served — once exhausted the duty jumps from 0 to 50%. Knowing which quota is running out lets you time your shipments.'],
+   l:[['按六位配额序号逐日追踪消耗速度','Daily draw-down tracking per 6-digit order number'],
+      ['预计用尽日与临界品种预警','Projected run-out dates and alerts on tightening categories'],
+      ['配额外 50% 关税的情景测算','Scenario analysis for the 50% out-of-quota duty']]},
+  pb3:{key:'price_subscription',
+   t:['欧洲钢价 + 分原产地到岸成本','European prices + landed cost by origin'],
+   d:['CBAM 只是到岸成本的一块。把货价、碳成本、关税放在一起,才知道"从哪买、什么时候发"最划算。',
+      'CBAM is only one part of landed cost. Put price, carbon cost and duty together to see which origin and which timing actually wins.'],
+   l:[['SMM 每日欧洲钢材价格序列','SMM daily European steel price series'],
+      ['分原产地到岸成本对比(货价+碳成本+关税)','Landed-cost comparison by origin (price + carbon + duty)'],
+      ['发货时点与采购策略情景分析','Scenario analysis on shipment timing and sourcing']]}
+ };
+ var ov=document.getElementById('pmOv');
+ function close(){ov.classList.remove('show');}
+ function open(id){
+  var c=C[id]; if(!c) return;
+  document.getElementById('pmTitle').textContent=T(c.t[0],c.t[1]);
+  document.getElementById('pmDesc').textContent=T(c.d[0],c.d[1]);
+  var ul=document.getElementById('pmList'); ul.innerHTML='';
+  c.l.forEach(function(x){var li=document.createElement('li');li.textContent=T(x[0],x[1]);ul.appendChild(li);});
+  document.getElementById('pmNote').textContent=T('留下您的需求与联系方式,我们会发您一份针对贵司货源的样例分析。计算器保持打开,表单在新标签页。','Tell us your needs and contact details and we will send a sample analysis for your own sourcing. The calculator stays open — the form opens in a new tab.');
+  var go=document.getElementById('pmGo'); go.textContent=T('填写需求 (约1分钟) →','Tell us what you need (1 min) →'); go.href=FORM;
+  go.onclick=function(){track('probe_cta_'+c.key);};
+  document.getElementById('pmNo').textContent=T('稍后再说','Not now');
+  ov.classList.add('show'); track('probe_open_'+c.key);
+ }
+ Object.keys(C).forEach(function(id){
   var el=document.getElementById(id); if(!el) return;
-  el.href=FORM;
-  el.addEventListener('click',function(){
-   try{ if(window.umami&&typeof window.umami.track==='function') window.umami.track(probes[id]); }catch(e){}
-  });
+  el.setAttribute('href','javascript:void(0)'); el.removeAttribute('target');
+  el.addEventListener('click',function(ev){ev.preventDefault();open(id);});
  });
+ document.getElementById('pmNo').addEventListener('click',close);
+ ov.addEventListener('click',function(e){if(e.target===ov)close();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
 })();
-</script></body></html>
+</script></div></body></html>
