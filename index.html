@@ -160,6 +160,26 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:26px 28px;displa
 .rnote.dev{color:#b26a00}
 select.locked{background:#f2f3f5;color:#555;cursor:not-allowed}
 .rnote.dev b{color:#b26a00}
+
+/* ---- bilingual gate ---------------------------------------------------------
+   The language toggle lives INSIDE the tool, so a visitor cannot switch before
+   signing in. The gate therefore shows both languages at once: Chinese first,
+   English underneath in a lighter weight.                                     */
+#gate .zh,#gate .en{display:block!important}
+#gate .en{color:#8f959d;font-weight:400;letter-spacing:0;line-height:1.5}
+#gate h3 .en{font-size:14px;margin-top:4px;color:#767c85;font-weight:500}
+#gate .g-sub .en{font-size:11px;margin-top:3px}
+#gate button .zh,#gate button .en{display:inline!important}
+#gate button .en{color:rgba(255,255,255,.88);font-weight:600}
+#gate button .en::before{content:"/";margin:0 7px;opacity:.5}
+#gate .g-note .en{font-size:10px;margin-top:3px;color:#c2c7ce}
+#gate .g-help b .en{font-size:10.5px;margin-top:3px;font-weight:400}
+#gate .g-help .row{flex-wrap:wrap}
+#gate .g-help .row .zh,#gate .g-help .row .en{flex:1 1 100%;margin-left:22px}
+#gate .g-help .row .en{font-size:10.5px;margin-top:3px}
+#gate #gFeed .en,#gate .g-xlink .en{font-size:10.5px;margin-top:4px}
+#gate #gFeed .en{color:rgba(192,0,0,.62)}
+#gate .g-err{line-height:1.5}
 </style><style id="smmskin">
 :root{--red:#C00000;--ink:#16191d;--grey:#79808a;--line:#e9ebee;--bg:#f5f6f8;--hair:#eef0f2}
 html{scroll-behavior:smooth}
@@ -303,7 +323,7 @@ body.locked #gate{display:flex}
 </head><body><div id="gate"><div class="gate-card" id="gateCard"><div class="g-bar"></div><div class="g-logo" id="gLogo"></div>
 <h3><span class="zh">钢铁 CBAM 成本计算器</span><span class="en">Iron &amp; Steel CBAM Calculator</span></h3>
 <div class="g-sub"><span class="zh">SMM 客户版 · 请输入访问码</span><span class="en">SMM Client Edition · enter access code</span></div>
-<input id="gPass" type="password" autocomplete="off" placeholder="Access code">
+<input id="gPass" type="password" autocomplete="off" placeholder="访问码 / Access code">
 <button onclick="gateTry()"><span class="zh">进入</span><span class="en">Enter</span></button>
 <div class="g-err" id="gErr"></div>
 <div class="g-note"><span class="zh">SMM 会记录访问码的使用情况以统计使用量</span><span class="en">SMM records access-code usage to measure how the tool is used</span><br>SMM · Shanghai Metals Market · Client Edition</div>
@@ -718,7 +738,7 @@ window.addEventListener('scroll',spy,{passive:true});spy();})();
     track('unlock',{who:who,week:isoWeekKey(new Date()),tool:'cbam'});
     unlock();}
   else{var c=document.getElementById('gateCard');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');
-   document.getElementById('gErr').textContent=(typeof LANG!=='undefined'&&LANG==='en')?'Incorrect or expired code':'密码不正确或已过期';
+   document.getElementById('gErr').textContent='访问码有误或已过期 · Incorrect or expired code';
    document.getElementById('gPass').value='';document.getElementById('gPass').focus();}};
  function applyFeedback(){if(!FEEDBACK_URL||FEEDBACK_URL.indexOf('__')===0)return;
   ['gFeed','fFeed','sFeed'].forEach(function(id){var a=document.getElementById(id);
