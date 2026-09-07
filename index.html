@@ -706,9 +706,10 @@ window.addEventListener('scroll',spy,{passive:true});spy();})();
     One client code opens both tools. The legacy gate.js hash still works and
     is the permanent internal (MASTER) code. Slot ids are opaque: no client
     can learn who the others are. */
- var GATE_SALT="smm-trq-2026", GATE_SEGS="ABCDEFGHJK";
+ var GATE_SALT="smm-trq-2026", GATE_SEGS="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ var SLOTS_PER_SEG=20;
  var GATE_SLOTS=(function(){var a=[];for(var i=0;i<GATE_SEGS.length;i++)
-   for(var j=1;j<=12;j++)a.push(GATE_SEGS.charAt(i)+(j<10?'0':'')+j);return a;})();
+   for(var j=1;j<=SLOTS_PER_SEG;j++)a.push(GATE_SEGS.charAt(i)+(j<10?'0':'')+j);return a;})();
  window.GATE_WHO=null;
  function fnv(s){var x=2166136261;for(var i=0;i<s.length;i++){x^=s.charCodeAt(i);x=Math.imul(x,16777619)>>>0;}return x;}
  function codeFrom(seed){var x=fnv(seed),out='',al='ACDEFHJKLMNPQRTUVWXY3479';
