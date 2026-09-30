@@ -1,0 +1,47 @@
+{
+ "_readme": "由 .github/workflows/update-feed.yml 每天自动更新。curated = Claude 每周从 SMM 内部接口挑的钢铁口径精选, 排在自动抓取之前, 过了 until 日期自动退场。手工改也可以, 改完直接 push。",
+ "cert": {
+  "2026 Q1": 75.36,
+  "2026 Q2": 75.28
+ },
+ "curated": {
+  "until": "2026-10-08",
+  "_note": "每周一由 Claude 从 SMM 内部接口(smm_news_search)挑选并写双语, 只留钢铁口径。本轮 2026-09-30 更新。",
+  "zh": [
+   {"d": "09-28", "t": "[SMM周报] 双焦走弱拖累黑色, 短期钢价或延续窄幅震荡", "u": "https://steel.smm.cn/news/113/104136916"},
+   {"d": "09-27", "t": "[SMM钢材航运] 上周中国出口钢材总量环比下降 14%", "u": "https://steel.smm.cn/news/020/104134797"},
+   {"d": "09-25", "t": "[SMM分析] 印度 1.A 类 HRC 季度配额已用 98%, 10 月新开 14.93 万吨", "u": "https://steel.smm.cn/news/115/104134749"},
+   {"d": "08-18", "t": "[SMM分析] 碳价兑现: CBAM 新规拆解与主力钢材国别成本测算", "u": "https://steel.smm.cn/news/113/104065976"}
+  ],
+  "en": [
+   {"d": "Sep 28", "t": "SMM Weekly: weak coking coal drags ferrous, steel prices to stay range-bound", "u": "https://steel.smm.cn/news/113/104136916"},
+   {"d": "Sep 27", "t": "SMM Shipping: China's steel exports down 14% week on week", "u": "https://steel.smm.cn/news/020/104134797"},
+   {"d": "Sep 25", "t": "SMM Analysis: India's 1.A HRC quota 98% drawn, 149,319 t opens in October", "u": "https://steel.smm.cn/news/115/104134749"},
+   {"d": "Aug 18", "t": "SMM Analysis: CBAM definitive rules and steel cost gaps by origin", "u": "https://steel.smm.cn/news/113/104065976"}
+  ]
+ },
+ "news": {
+  "zh": [
+   {"d": "09-28", "t": "[SMM周报] 双焦走弱拖累黑色, 短期钢价或延续窄幅震荡", "u": "https://steel.smm.cn/news/113/104136916"},
+   {"d": "09-27", "t": "[SMM钢材航运] 上周中国出口钢材总量环比下降 14%", "u": "https://steel.smm.cn/news/020/104134797"},
+   {"d": "09-25", "t": "[SMM分析] 印度 1.A 类 HRC 季度配额已用 98%, 10 月新开 14.93 万吨", "u": "https://steel.smm.cn/news/115/104134749"},
+   {"d": "08-18", "t": "[SMM分析] 碳价兑现: CBAM 新规拆解与主力钢材国别成本测算", "u": "https://steel.smm.cn/news/113/104065976"},
+   {"d": "10-05", "t": "欧委会将于 10-05 公布 2026 Q3 CBAM 证书价", "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"},
+   {"d": "07-06", "t": "欧委会公布 2026 Q2 CBAM 证书价 €75.28", "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"}
+  ],
+  "en": [
+   {"d": "Sep 28", "t": "SMM Weekly: weak coking coal drags ferrous, steel prices to stay range-bound", "u": "https://steel.smm.cn/news/113/104136916"},
+   {"d": "Sep 27", "t": "SMM Shipping: China's steel exports down 14% week on week", "u": "https://steel.smm.cn/news/020/104134797"},
+   {"d": "Sep 25", "t": "SMM Analysis: India's 1.A HRC quota 98% drawn, 149,319 t opens in October", "u": "https://steel.smm.cn/news/115/104134749"},
+   {"d": "Aug 18", "t": "SMM Analysis: CBAM definitive rules and steel cost gaps by origin", "u": "https://steel.smm.cn/news/113/104065976"},
+   {"d": "Oct 5", "t": "EC to publish the Q3 2026 CBAM certificate price on 5 October", "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"},
+   {"d": "Jul 6", "t": "EC publishes Q2 2026 CBAM certificate price EUR 75.28", "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"}
+  ]
+ },
+ "sources": {
+  "cert": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en",
+  "news_zh": ["https://news.smm.cn/keywords/CBAM", "https://news.smm.cn/keywords/%E7%A2%B3%E5%85%B3%E7%A8%8E", "https://news.smm.cn/keywords/%E9%92%A2%E9%93%81", "https://news.smm.cn/keywords/%E7%83%AD%E5%8D%B7", "https://news.smm.cn/keywords/%E9%92%A2%E6%9D%90"],
+  "news_en": ["https://news.metal.com/en/ferrous-metals"]
+ },
+ "updated": "2026-09-30T08:00:00Z"
+}
