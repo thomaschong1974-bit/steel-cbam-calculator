@@ -5,43 +5,151 @@
   "2026 Q2": 75.28
  },
  "curated": {
-  "until": "2026-10-08",
-  "_note": "每周一由 Claude 从 SMM 内部接口(smm_news_search)挑选并写双语, 只留钢铁口径。本轮 2026-09-30 更新。",
+  "until": "2026-10-09",
+  "_note": "每周一由 Claude 从 SMM 内部接口挑选并写双语, 只留钢铁口径。本轮 2026-10-01 更新 (含熔铸举证、GOES 保障两条法规动态)。",
   "zh": [
-   {"d": "09-28", "t": "[SMM周报] 双焦走弱拖累黑色, 短期钢价或延续窄幅震荡", "u": "https://steel.smm.cn/news/113/104136916"},
-   {"d": "09-27", "t": "[SMM钢材航运] 上周中国出口钢材总量环比下降 14%", "u": "https://steel.smm.cn/news/020/104134797"},
-   {"d": "09-25", "t": "[SMM分析] 印度 1.A 类 HRC 季度配额已用 98%, 10 月新开 14.93 万吨", "u": "https://steel.smm.cn/news/115/104134749"},
-   {"d": "08-18", "t": "[SMM分析] 碳价兑现: CBAM 新规拆解与主力钢材国别成本测算", "u": "https://steel.smm.cn/news/113/104065976"}
+   {
+    "d": "10-01",
+    "t": "熔铸国举证新规 IR 2026/1963 今起生效: 报关须附注明熔铸国与炉号的材质证明书, 举证不足进口被拒",
+    "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/1963/oj"
+   },
+   {
+    "d": "09-25",
+    "t": "取向电工钢 GOES 临时保障生效至 2027-02-26: 国别配额 + 价格门槛, 7225 11 / 7226 11 在 CBAM 之外再叠一层",
+    "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/2133/oj"
+   },
+   {
+    "d": "09-28",
+    "t": "[SMM周报] 双焦走弱拖累黑色, 短期钢价或延续窄幅震荡",
+    "u": "https://steel.smm.cn/news/113/104136916"
+   },
+   {
+    "d": "09-27",
+    "t": "[SMM钢材航运] 上周中国出口钢材总量环比下降 14%",
+    "u": "https://steel.smm.cn/news/020/104134797"
+   },
+   {
+    "d": "09-25",
+    "t": "[SMM分析] 印度 1.A 类 HRC 季度配额已用 98%, 10 月新开 14.93 万吨",
+    "u": "https://steel.smm.cn/news/115/104134749"
+   },
+   {
+    "d": "08-18",
+    "t": "[SMM分析] 碳价兑现: CBAM 新规拆解与主力钢材国别成本测算",
+    "u": "https://steel.smm.cn/news/113/104065976"
+   }
   ],
   "en": [
-   {"d": "Sep 28", "t": "SMM Weekly: weak coking coal drags ferrous, steel prices to stay range-bound", "u": "https://steel.smm.cn/news/113/104136916"},
-   {"d": "Sep 27", "t": "SMM Shipping: China's steel exports down 14% week on week", "u": "https://steel.smm.cn/news/020/104134797"},
-   {"d": "Sep 25", "t": "SMM Analysis: India's 1.A HRC quota 98% drawn, 149,319 t opens in October", "u": "https://steel.smm.cn/news/115/104134749"},
-   {"d": "Aug 18", "t": "SMM Analysis: CBAM definitive rules and steel cost gaps by origin", "u": "https://steel.smm.cn/news/113/104065976"}
+   {
+    "d": "Oct 1",
+    "t": "Melt-and-pour evidence rules (IR 2026/1963) apply from today: MTC must show the melt-and-pour country and heat number",
+    "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/1963/oj"
+   },
+   {
+    "d": "Sep 25",
+    "t": "Provisional GOES safeguard in force to 26 Feb 2027: country quotas plus price thresholds on top of CBAM for 7225 11 / 7226 11",
+    "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/2133/oj"
+   },
+   {
+    "d": "Sep 28",
+    "t": "SMM Weekly: weak coking coal drags ferrous, steel prices to stay range-bound",
+    "u": "https://steel.smm.cn/news/113/104136916"
+   },
+   {
+    "d": "Sep 27",
+    "t": "SMM Shipping: China's steel exports down 14% week on week",
+    "u": "https://steel.smm.cn/news/020/104134797"
+   },
+   {
+    "d": "Sep 25",
+    "t": "SMM Analysis: India's 1.A HRC quota 98% drawn, 149,319 t opens in October",
+    "u": "https://steel.smm.cn/news/115/104134749"
+   },
+   {
+    "d": "Aug 18",
+    "t": "SMM Analysis: CBAM definitive rules and steel cost gaps by origin",
+    "u": "https://steel.smm.cn/news/113/104065976"
+   }
   ]
  },
  "news": {
   "zh": [
-   {"d": "09-28", "t": "[SMM周报] 双焦走弱拖累黑色, 短期钢价或延续窄幅震荡", "u": "https://steel.smm.cn/news/113/104136916"},
-   {"d": "09-27", "t": "[SMM钢材航运] 上周中国出口钢材总量环比下降 14%", "u": "https://steel.smm.cn/news/020/104134797"},
-   {"d": "09-25", "t": "[SMM分析] 印度 1.A 类 HRC 季度配额已用 98%, 10 月新开 14.93 万吨", "u": "https://steel.smm.cn/news/115/104134749"},
-   {"d": "08-18", "t": "[SMM分析] 碳价兑现: CBAM 新规拆解与主力钢材国别成本测算", "u": "https://steel.smm.cn/news/113/104065976"},
-   {"d": "10-05", "t": "欧委会将于 10-05 公布 2026 Q3 CBAM 证书价", "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"},
-   {"d": "07-06", "t": "欧委会公布 2026 Q2 CBAM 证书价 €75.28", "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"}
+   {
+    "d": "10-01",
+    "t": "熔铸国举证新规 IR 2026/1963 今起生效: 报关须附注明熔铸国与炉号的材质证明书, 举证不足进口被拒",
+    "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/1963/oj"
+   },
+   {
+    "d": "09-25",
+    "t": "取向电工钢 GOES 临时保障生效至 2027-02-26: 国别配额 + 价格门槛, 7225 11 / 7226 11 在 CBAM 之外再叠一层",
+    "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/2133/oj"
+   },
+   {
+    "d": "09-28",
+    "t": "[SMM周报] 双焦走弱拖累黑色, 短期钢价或延续窄幅震荡",
+    "u": "https://steel.smm.cn/news/113/104136916"
+   },
+   {
+    "d": "09-27",
+    "t": "[SMM钢材航运] 上周中国出口钢材总量环比下降 14%",
+    "u": "https://steel.smm.cn/news/020/104134797"
+   },
+   {
+    "d": "09-25",
+    "t": "[SMM分析] 印度 1.A 类 HRC 季度配额已用 98%, 10 月新开 14.93 万吨",
+    "u": "https://steel.smm.cn/news/115/104134749"
+   },
+   {
+    "d": "08-18",
+    "t": "[SMM分析] 碳价兑现: CBAM 新规拆解与主力钢材国别成本测算",
+    "u": "https://steel.smm.cn/news/113/104065976"
+   }
   ],
   "en": [
-   {"d": "Sep 28", "t": "SMM Weekly: weak coking coal drags ferrous, steel prices to stay range-bound", "u": "https://steel.smm.cn/news/113/104136916"},
-   {"d": "Sep 27", "t": "SMM Shipping: China's steel exports down 14% week on week", "u": "https://steel.smm.cn/news/020/104134797"},
-   {"d": "Sep 25", "t": "SMM Analysis: India's 1.A HRC quota 98% drawn, 149,319 t opens in October", "u": "https://steel.smm.cn/news/115/104134749"},
-   {"d": "Aug 18", "t": "SMM Analysis: CBAM definitive rules and steel cost gaps by origin", "u": "https://steel.smm.cn/news/113/104065976"},
-   {"d": "Oct 5", "t": "EC to publish the Q3 2026 CBAM certificate price on 5 October", "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"},
-   {"d": "Jul 6", "t": "EC publishes Q2 2026 CBAM certificate price EUR 75.28", "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"}
+   {
+    "d": "Oct 1",
+    "t": "Melt-and-pour evidence rules (IR 2026/1963) apply from today: MTC must show the melt-and-pour country and heat number",
+    "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/1963/oj"
+   },
+   {
+    "d": "Sep 25",
+    "t": "Provisional GOES safeguard in force to 26 Feb 2027: country quotas plus price thresholds on top of CBAM for 7225 11 / 7226 11",
+    "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/2133/oj"
+   },
+   {
+    "d": "Sep 28",
+    "t": "SMM Weekly: weak coking coal drags ferrous, steel prices to stay range-bound",
+    "u": "https://steel.smm.cn/news/113/104136916"
+   },
+   {
+    "d": "Sep 27",
+    "t": "SMM Shipping: China's steel exports down 14% week on week",
+    "u": "https://steel.smm.cn/news/020/104134797"
+   },
+   {
+    "d": "Sep 25",
+    "t": "SMM Analysis: India's 1.A HRC quota 98% drawn, 149,319 t opens in October",
+    "u": "https://steel.smm.cn/news/115/104134749"
+   },
+   {
+    "d": "Aug 18",
+    "t": "SMM Analysis: CBAM definitive rules and steel cost gaps by origin",
+    "u": "https://steel.smm.cn/news/113/104065976"
+   }
   ]
  },
  "sources": {
   "cert": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en",
-  "news_zh": ["https://news.smm.cn/keywords/CBAM", "https://news.smm.cn/keywords/%E7%A2%B3%E5%85%B3%E7%A8%8E", "https://news.smm.cn/keywords/%E9%92%A2%E9%93%81", "https://news.smm.cn/keywords/%E7%83%AD%E5%8D%B7", "https://news.smm.cn/keywords/%E9%92%A2%E6%9D%90"],
-  "news_en": ["https://news.metal.com/en/ferrous-metals"]
+  "news_zh": [
+   "https://news.smm.cn/keywords/CBAM",
+   "https://news.smm.cn/keywords/%E7%A2%B3%E5%85%B3%E7%A8%8E",
+   "https://news.smm.cn/keywords/%E9%92%A2%E9%93%81",
+   "https://news.smm.cn/keywords/%E7%83%AD%E5%8D%B7",
+   "https://news.smm.cn/keywords/%E9%92%A2%E6%9D%90"
+  ],
+  "news_en": [
+   "https://news.metal.com/en/ferrous-metals"
+  ]
  },
- "updated": "2026-09-30T08:00:00Z"
+ "updated": "2026-10-01T06:00:00Z"
 }
