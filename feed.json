@@ -2,7 +2,8 @@
  "_readme": "由 .github/workflows/update-feed.yml 每天自动更新。curated = Claude 每周从 SMM 内部接口挑的钢铁口径精选, 排在自动抓取之前, 过了 until 日期自动退场。手工改也可以, 改完直接 push。",
  "cert": {
   "2026 Q1": 75.36,
-  "2026 Q2": 75.28
+  "2026 Q2": 75.28,
+  "2026 Q3": 82.32
  },
  "curated": {
   "until": "2026-10-09",
@@ -75,6 +76,11 @@
  "news": {
   "zh": [
    {
+    "d": "10-05",
+    "t": "欧委会公布 2026 Q3 CBAM 证书价 €82.32",
+    "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"
+   },
+   {
     "d": "10-01",
     "t": "熔铸国举证新规 IR 2026/1963 今起生效: 报关须附注明熔铸国与炉号的材质证明书, 举证不足进口被拒",
     "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/1963/oj"
@@ -98,14 +104,14 @@
     "d": "09-25",
     "t": "[SMM分析] 印度 1.A 类 HRC 季度配额已用 98%, 10 月新开 14.93 万吨",
     "u": "https://steel.smm.cn/news/115/104134749"
-   },
-   {
-    "d": "08-18",
-    "t": "[SMM分析] 碳价兑现: CBAM 新规拆解与主力钢材国别成本测算",
-    "u": "https://steel.smm.cn/news/113/104065976"
    }
   ],
   "en": [
+   {
+    "d": "Oct 5",
+    "t": "EC publishes Q3 2026 CBAM certificate price EUR 82.32",
+    "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"
+   },
    {
     "d": "Oct 1",
     "t": "Melt-and-pour evidence rules (IR 2026/1963) apply from today: MTC must show the melt-and-pour country and heat number",
@@ -130,11 +136,6 @@
     "d": "Sep 25",
     "t": "SMM Analysis: India's 1.A HRC quota 98% drawn, 149,319 t opens in October",
     "u": "https://steel.smm.cn/news/115/104134749"
-   },
-   {
-    "d": "Aug 18",
-    "t": "SMM Analysis: CBAM definitive rules and steel cost gaps by origin",
-    "u": "https://steel.smm.cn/news/113/104065976"
    }
   ]
  },
@@ -151,5 +152,5 @@
    "https://news.metal.com/en/ferrous-metals"
   ]
  },
- "updated": "2026-10-01T06:00:00Z"
+ "updated": "2026-10-05T14:10:38Z"
 }
