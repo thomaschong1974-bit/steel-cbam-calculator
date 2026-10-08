@@ -1,4 +1,4 @@
-# SMM 钢铁 CBAM 成本计算器
+# SMM 钢铁 CBAM 计算器
 
 单文件、自包含、中英双语的欧盟 CBAM（碳边境调节机制）钢铁成本测算工具。
 覆盖 CN 72–73（不锈钢扁平材 7218–7223 除外）184 个 HS 编码、48 个原产国口径默认值、
@@ -16,39 +16,30 @@
 | 文件 | 作用 |
 |---|---|
 | `index.html` | 计算器本体。单文件、自包含、可离线打开 |
-| `feed.json` | 每日自动更新的数据源：CBAM 证书季度价 + SMM 快讯 |
+| `feed.json` | 数据源：CBAM 证书季度价 + CBAM 快讯（每周一更新） |
 | `scripts/update_feed.py` | 刷新 `feed.json` 的脚本 |
-| `.github/workflows/update-feed.yml` | 每天定时跑上面那个脚本并自动提交 |
+| `.github/workflows/update-feed.yml` | 每周一定时跑上面那个脚本并自动提交 |
 
-## 自动更新怎么跑
+## 更新节奏：每周一
 
-每天 UTC 06:00（北京时间 14:00），GitHub Actions 会：
+与 [TRQ 配额追踪器](https://thomaschong1974-bit.github.io/eu-steel-trq/) 同款，**快讯固定每周一更新**。
 
-1. 抓欧委会官网的 CBAM 证书价 → 写入 `feed.json` 的 `cert`
-2. 抓 SMM 中文站（`news.smm.cn`）与英文站（`news.metal.com` 黑色频道）的最新标题
-   → 只留钢铁口径 → 写入 `feed.json` 的 `news`
-3. 内容真的变了才提交，不产生空提交
+| 内容 | 谁来更新 | 什么时候 |
+|---|---|---|
+| CBAM 证书价（`feed.json` 的 `cert`） | GitHub Actions 自动抓欧委会官网，有新价时在快讯顶部自动加一条 | 每周一 UTC 06:00 / 15:00（北京 14:00 / 23:00）；可在 Actions 页面手动加跑 |
+| CBAM 快讯（`feed.json` 的 `news`） | Claude 每周一整理，产出新的 `feed.json`，用 GitHub Desktop 推送 | 每周一上午 |
+| 顶部倒计时（⏳） | 页面自动计算，无需维护 | 实时 |
+
+快讯条：点「CBAM 快讯 ▾」或点滚动区，展开「全部 CBAM 快讯（最新在上）」面板；× 或 Esc 关闭。
 
 页面打开时读 `feed.json`；**读不到、格式坏、数值异常，一律静默回退到 `index.html`
 内嵌的值 —— 计算结果永远不会因为取数失败而出错。**
-
-### `feed.json` 的三层快讯
-
-上面的压下面的：
-
-| 层 | 字段 | 来源 | 维护 |
-|---|---|---|---|
-| ① 证书价公告 | 自动生成 | 欧委会官网 | 自动 |
-| ② 每周精选 | `curated` | SMM 内部接口挑选，中英双语 | 每周手动更新一次 |
-| ③ 每日抓取 | `news` | SMM 公开页 | 自动 |
-
-`curated.until` 是保鲜期，过期自动退场，自动抓取不会覆盖它。
 
 ## 首次部署
 
 1. **Settings → Pages**：Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`
 2. **Settings → Actions → General → Workflow permissions**：选 **Read and write permissions**
-   （漏了这步，每天的自动更新推不上去）
+   （漏了这步，自动更新推不上去）
 3. **Actions → update-feed → Run workflow**：手动跑一次，出绿勾即正常
 
 ## 发客户的链接

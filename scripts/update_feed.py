@@ -1,88 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-SMM 钢铁 CBAM 成本计算器 —— feed.json 自动更新器 (v2)
+SMM 钢铁 CBAM 计算器 —— feed.json 自动更新器 (v3, 每周一)
 
-每天在 GitHub Actions 上自动:
-  1) 欧委会官方页 -> CBAM 证书季度价
-  2) 中文站 news.smm.cn            -> 中文快讯 (只留钢铁口径)
-  3) 英文站 news.metal.com 黑色频道 -> 英文快讯 (只留钢铁口径)
-  4) feed.json 的 "curated" 区 = 每周由 Claude 从 SMM 内部接口挑的精选,
-     自动抓取只排在它后面, 永不冲掉; 过了 until 日期自动退场
+GitHub Actions 每周一自动:
+  1) 欧委会官方页 -> CBAM 证书季度价, 写入 cert
+  2) 有新季度价时, 在 news 顶部自动加一条中英快讯 (与 TRQ 追踪器同款写法)
+  3) news 其余条目由 SMM 每周一整理, 脚本原样保留, 不抓任何新闻网站
 
 安全原则:
   - 任何一步失败都不写文件, 保留上一版 (页面永远有可用数据)
-  - 抓不到就保留旧条目, 绝不写空
-  - 中英分站、分开过滤; 英文列表强制剔除任何含中文的条目
   - 只有内容真的变了才写文件, 不产生空提交
 """
 import json, re, sys, html, datetime, pathlib, urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 FEED = ROOT / "feed.json"
-
 EC_URL = "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en"
-
-ZH_PAGES = [
-    "https://news.smm.cn/keywords/CBAM",
-    "https://news.smm.cn/keywords/%E7%A2%B3%E5%85%B3%E7%A8%8E",
-    "https://news.smm.cn/keywords/%E9%92%A2%E9%93%81",
-    "https://news.smm.cn/keywords/%E7%83%AD%E5%8D%B7",
-    "https://news.smm.cn/keywords/%E9%92%A2%E6%9D%90",
-]
-EN_PAGES = ["https://news.metal.com/en/ferrous-metals"]
-
-MAX_NEWS  = 6
-MAX_AGE_D = 150
-
+MAX_NEWS = 14
 CJK = re.compile(r"[一-鿿]")
-UA  = {"User-Agent": "Mozilla/5.0 (compatible; SMM-CBAM-feed/2.0)"}
-
-ZH_STEEL = re.compile(
-    "钢|铁矿|热卷|热轧|冷轧|螺纹|线材|板材|"
-    "方坯|镀锌|镀层|粗钢|生铁|高炉|电炉|转炉|"
-    "废钢|焦煤|焦炭|烧结|球团|铁水|型钢|中厚板|HRC|CRC")
-ZH_OTHER = re.compile(
-    "铝|铜|镍|锌|锡|铅|锂|钴|稀土|白银|黄金|"
-    "多晶硅|工业硅|光伏|碳酸锂|钨|钼|锑")
-EN_STEEL = re.compile(
-    r"steel|iron ore|\bHRC\b|\bCRC\b|rebar|billet|slab|wire rod|galvani[sz]|"
-    r"coking coal|\bcoke\b|pig iron|blast furnace|\bBOF\b|\bEAF\b|ferrous|scrap", re.I)
-EN_OTHER = re.compile(
-    r"copper|alumin|nickel|\bzinc\b|\btin\b|\blead\b|lithium|cobalt|rare earth|"
-    r"silver|\bgold\b|polysilicon|photovoltaic|tungsten|molybdenum|antimony", re.I)
-
-EN_MONTHS = {m: i + 1 for i, m in enumerate(
-    ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"])}
+UA = {"User-Agent": "Mozilla/5.0 (compatible; SMM-CBAM-feed/3.0)"}
+MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
 
 def fetch(url, timeout=45):
     req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        raw = r.read()
-    for enc in ("utf-8", "gb18030"):
-        try: return raw.decode(enc)
-        except UnicodeDecodeError: continue
-    return raw.decode("utf-8", "ignore")
+        return r.read().decode("utf-8", "ignore")
 
 
 def strip_tags(s):
-    return html.unescape(re.sub(r"<[^>]+>", "", s)).replace(" ", " ").strip()
-
-
-def is_steel(title, lang):
-    """只留钢铁口径: 必须命中钢铁词; 别的金属词出现得更靠前就丢掉。"""
-    S, O = (ZH_STEEL, ZH_OTHER) if lang == "zh" else (EN_STEEL, EN_OTHER)
-    ms = S.search(title)
-    if not ms: return False
-    mo = O.search(title)
-    return not (mo and mo.start() < ms.start())
-
-
-def fresh(iso, today):
-    try: d = datetime.date(*map(int, iso.split("-")))
-    except Exception: return False           # noqa: BLE001
-    return 0 <= (today - d).days <= MAX_AGE_D
+    return html.unescape(re.sub(r"<[^>]+>", "", s)).replace("\xa0", " ").strip()
 
 
 def parse_cert(page):
@@ -102,113 +50,59 @@ def parse_cert(page):
     return out
 
 
-def parse_zh(page, today):
-    items, seen = [], set()
-    pat = re.compile(r'<a[^>]+href="(https?://[^"]*?(?:/news/|/content/)[^"#?]*)"[^>]*>(.*?)</a>', re.S | re.I)
-    for m in pat.finditer(page):
-        url, t = m.group(1), re.sub(r"\s+", " ", strip_tags(m.group(2)))
-        t = re.sub(r"^原创", "", t)
-        if not (10 <= len(t) <= 64) or not CJK.search(t) or url in seen: continue
-        dm = re.search(r"(20\d\d)-(\d{2})-(\d{2})", page[m.end(): m.end() + 6000])
-        if not dm or not fresh(dm.group(0), today) or not is_steel(t, "zh"): continue
-        seen.add(url)
-        items.append({"d": "%s-%s" % (dm.group(2), dm.group(3)), "t": t, "u": url, "_s": dm.group(0)})
-    return items
+def prev_key(k):
+    yr, q = k.split(" "); y, n = int(yr), int(q[1])
+    return "%d Q%d" % (y - 1, 4) if n == 1 else "%d Q%d" % (y, n - 1)
 
 
-def parse_en(page, today):
-    items, seen = [], set()
-    pat = re.compile(r'<a[^>]+href="(https?://news\.metal\.com/[^"]*?newscontent/[^"#?]*)"[^>]*>(.*?)</a>', re.S | re.I)
-    for m in pat.finditer(page):
-        url, raw = m.group(1), re.sub(r"\s+", " ", strip_tags(m.group(2)))
-        dm = re.search(r"([A-Z][a-z]{2})\s+(\d{1,2}),\s*(20\d\d)", raw)
-        if not dm: continue
-        t = re.sub(r"^\d+\s*", "", raw[:dm.start()].strip()).strip()
-        if not (15 <= len(t) <= 90) or CJK.search(t) or url in seen: continue
-        mo = EN_MONTHS.get(dm.group(1))
-        if not mo: continue
-        iso = "%s-%02d-%02d" % (dm.group(3), mo, int(dm.group(2)))
-        if not fresh(iso, today) or not is_steel(t, "en"): continue
-        seen.add(url)
-        items.append({"d": "%s %d" % (dm.group(1), int(dm.group(2))), "t": t, "u": url, "_s": iso})
-    return items
-
-
-def finalize(items, limit, lang):
-    out, seen = [], set()
-    for it in sorted(items, key=lambda x: x.get("_s", ""), reverse=True):
-        t = (it.get("t") or "").strip()
-        if not t or t in seen: continue
-        if lang == "en" and CJK.search(t): continue
-        seen.add(t)
-        out.append({"d": it.get("d", ""), "t": t, "u": it.get("u", "")})
-        if len(out) >= limit: break
-    return out
+def price_note(k, cert, today):
+    yr, q = k.split(" "); v = cert[k]; p = cert.get(prev_key(k))
+    zh = "欧委会公布 %s %s 证书价 €%.2f" % (yr, q, v)
+    en = "Commission publishes the %s %s certificate price at €%.2f" % (q, yr, v)
+    if p:
+        pct = (v / p - 1) * 100
+        zh += "，较上季 €%.2f %s %.1f%%" % (p, "上涨" if pct >= 0 else "下跌", abs(pct))
+        en += ", %s %.1f%% from €%.2f the previous quarter" % ("up" if pct >= 0 else "down", abs(pct), p)
+    zh += "；本计算器已自动切换。"
+    en += "; the calculator has switched automatically."
+    return ({"d": today.strftime("%m-%d"), "t": zh, "u": EC_URL},
+            {"d": "%s %d" % (MON[today.month - 1], today.day), "t": en, "u": EC_URL})
 
 
 def main():
     today = datetime.date.today()
-    feed  = json.loads(FEED.read_text("utf-8"))
-    old   = json.dumps({k: v for k, v in feed.items() if k != "updated"}, ensure_ascii=False, sort_keys=True)
-    cert, notes = dict(feed.get("cert", {})), []
-
+    feed = json.loads(FEED.read_text("utf-8"))
+    old = json.dumps({k: v for k, v in feed.items() if k != "updated"}, ensure_ascii=False, sort_keys=True)
+    cert, new_keys = dict(feed.get("cert", {})), []
     try:
         got = parse_cert(fetch(EC_URL))
         if got:
             for k, v in sorted(got.items()):
-                if cert.get(k) != v: cert[k] = v; notes.append(k)
+                if cert.get(k) != v: cert[k] = v; new_keys.append(k)
         else:
             print("WARN: 欧委会页面未解析到价格, 保持原值")
     except Exception as e:                                    # noqa: BLE001
         print("WARN: 证书价抓取失败 -> %s" % e)
 
-    zh_new, en_new = [], []
-    for u in ZH_PAGES:
-        try:
-            g = parse_zh(fetch(u), today); zh_new += g; print("  zh %-46s %d" % (u[-46:], len(g)))
-        except Exception as e: print("WARN: %s -> %s" % (u, e))    # noqa: BLE001
-    for u in EN_PAGES:
-        try:
-            g = parse_en(fetch(u), today); en_new += g; print("  en %-46s %d" % (u[-46:], len(g)))
-        except Exception as e: print("WARN: %s -> %s" % (u, e))    # noqa: BLE001
-
-    head_zh, head_en = [], []
-    for k in notes:
-        yr, q = k.split(" ")
-        head_zh.append({"d": today.strftime("%m-%d"), "_s": "Z2",
-                        "t": "欧委会公布 %s %s CBAM 证书价 €%.2f" % (yr, q, cert[k]), "u": EC_URL})
-        head_en.append({"d": today.strftime("%b ") + str(today.day), "_s": "Z2",
-                        "t": "EC publishes %s %s CBAM certificate price EUR %.2f" % (q, yr, cert[k]), "u": EC_URL})
-
-    cur, cur_ok = feed.get("curated") or {}, True
-    if cur.get("until"):
-        try: cur_ok = datetime.date(*map(int, cur["until"].split("-"))) >= today
-        except Exception: cur_ok = False                      # noqa: BLE001
-    cur_zh = [dict(x, _s="Z1%03d" % (999 - i)) for i, x in enumerate(cur.get("zh", []))] if cur_ok else []
-    cur_en = [dict(x, _s="Z1%03d" % (999 - i)) for i, x in enumerate(cur.get("en", []))] if cur_ok else []
-    if cur and not cur_ok:
-        print("  精选已过期 (until=%s), 本轮不用" % cur.get("until"))
-
-    # 旧条目永远垫底: 抓取失败时滚动条不会缩水, 成功时又会被新条目顶下去
-    prev_zh = [dict(x, _s="") for x in feed.get("news", {}).get("zh", [])]
-    prev_en = [dict(x, _s="") for x in feed.get("news", {}).get("en", [])]
-    zh = finalize(head_zh + cur_zh + zh_new + prev_zh, MAX_NEWS, "zh")
-    en = finalize(head_en + cur_en + en_new + prev_en, MAX_NEWS, "en")
-    if not zh_new and not cur_zh: print("WARN: 中文未抓到新条目, 保留旧快讯")
-    if not en_new and not cur_en: print("WARN: 英文未抓到新条目, 保留旧快讯")
+    news = feed.get("news") or {}
+    zh, en = list(news.get("zh", [])), list(news.get("en", []))
+    for k in sorted(new_keys):
+        nz, ne = price_note(k, cert, today)
+        if not any(("%s %s" % tuple(k.split(" "))) in (x.get("t") or "") and "证书价" in (x.get("t") or "") for x in zh):
+            zh.insert(0, nz); en.insert(0, ne)
+    en = [x for x in en if x.get("t") and not CJK.search(x["t"])]
     if not zh or not en:
         print("ABORT: 快讯为空, 不写入"); return 0
 
     feed["cert"] = cert
-    feed["news"] = {"zh": zh, "en": en}
-    feed.setdefault("sources", {}).update({"cert": EC_URL, "news_zh": ZH_PAGES, "news_en": EN_PAGES})
-
+    feed["news"] = {"zh": zh[:MAX_NEWS], "en": en[:MAX_NEWS]}
+    feed.pop("curated", None)
     new = json.dumps({k: v for k, v in feed.items() if k != "updated"}, ensure_ascii=False, sort_keys=True)
     if new == old:
         print("no change"); return 0
     feed["updated"] = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     FEED.write_text(json.dumps(feed, ensure_ascii=False, indent=1) + "\n", "utf-8")
-    print("updated: cert=%d zh=%d en=%d (精选 %d/%d)" % (len(cert), len(zh), len(en), len(cur_zh), len(cur_en)))
+    print("updated: cert=%d new=%s zh=%d en=%d" % (len(cert), new_keys, len(feed["news"]["zh"]), len(feed["news"]["en"])))
     return 0
 
 

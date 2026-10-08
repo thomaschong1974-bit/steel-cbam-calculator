@@ -1,0 +1,42 @@
+name: update-feed
+
+# 每周一自动刷新 feed.json 里的欧委会 CBAM 证书价 (有新价时自动加一条快讯)
+# 快讯其余内容由 SMM 每周一整理; 也可以在 Actions 页面点 "Run workflow" 随时加跑
+on:
+  schedule:
+    - cron: '0 6 * * 1'      # 每周一 UTC 06:00 = 北京时间 14:00
+    - cron: '0 15 * * 1'     # 每周一 UTC 15:00 = 北京时间 23:00 (欧委会当天下午才挂新价时兜底)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-feed
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Update feed.json
+        run: python scripts/update_feed.py
+
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain feed.json)" ]; then
+            git config user.name  "smm-feed-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add feed.json
+            git commit -m "chore(feed): auto-update $(date -u +%F)"
+            git push
+            echo "pushed"
+          else
+            echo "no change - nothing to push"
+          fi
