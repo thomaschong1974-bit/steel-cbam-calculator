@@ -1,8 +1,10 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>
 /* ---- 语言自动适配 ----------------------------------------------------------
-   优先级: ① 链接参数 ?lang=zh / ?lang=en  ② 访客手动切换过的语言 (本机记住)
-          ③ 浏览器语言: navigator.languages 里排最前的中文或英文
-          ④ 浏览器语言既非中文也非英文 → 英文; 取不到浏览器语言 → 中文
+   优先级: ① 链接参数 ?lang=zh / ?lang=en
+          ② 所在网站: metal.com (含嵌在 metal.com 页面里) 固定英文, smm.cn 固定中文
+          ③ 访客手动切换过的语言 (本机记住, 只在 GitHub 等中性站点生效)
+          ④ 浏览器语言: navigator.languages 里排最前的中文或英文
+          ⑤ 浏览器语言既非中文也非英文 → 英文; 取不到浏览器语言 → 中文
    在 head 里先算好, 页面主体一开始就加 en 类, 英文访客不会先闪一下中文。 */
 (function(){
  function norm(v){v=String(v||'').toLowerCase();return /^(zh|cn)/.test(v)?'zh':/^en/.test(v)?'en':'';}
@@ -11,11 +13,17 @@
   for(var i=0;i<ls.length;i++){var l=norm(ls[i]);if(l)return l;}
   return ls[0]?'en':'zh';
  }
- var l='',src='';
- try{var m=/[?&]lang=([^&#]+)/.exec(location.search);if(m){l=norm(decodeURIComponent(m[1]));if(l)src='url';}}catch(e){}
+ function urlLang(){try{var m=/[?&]lang=([^&#]+)/.exec(location.search);return m?norm(decodeURIComponent(m[1])):'';}catch(e){return '';}}
+ function hostLang(h){h=String(h||'').toLowerCase();return /(^|\.)metal\.com$/.test(h)?'en':/(^|\.)smm\.cn$/.test(h)?'zh':'';}
+ function siteLang(){var l=hostLang(location.hostname);if(l)return l;
+  try{if(document.referrer)l=hostLang(new URL(document.referrer).hostname);}catch(e){}
+  try{if(!l&&window.top!==window.self)l=hostLang(window.top.location.hostname);}catch(e){}
+  return l||'';}
+ var l=urlLang(),src=l?'url':'';
+ if(!l){l=siteLang();if(l)src='site';}
  if(!l){try{l=norm(localStorage.getItem('smm_cbam_lang'));if(l)src='saved';}catch(e){}}
  if(!l){l=browserLang();src='browser';}
- window.__LANG=l;window.__LANG_SRC=src;window.__browserLang=browserLang;
+ window.__LANG=l;window.__LANG_SRC=src;window.__LANG_FIXED=(src==='url'||src==='site')?l:'';window.__browserLang=browserLang;
  document.documentElement.lang=l==='en'?'en':'zh-CN';
 })();
 </script><title>钢铁 CBAM 计算器 | Iron & Steel CBAM Calculator – SMM</title><style>
@@ -472,7 +480,7 @@ const P={"benA":{"7201":{"single":1.089},"7203":{"single":0.295},"7205":{"single
 function T(z,e){return LANG==='zh'?z:e;}
 function n3(x){return (x==null||isNaN(x))?'–':(Math.round(x*1000)/1000).toString();}
 function n2(x){return (x==null||isNaN(x))?'–':(Math.round(x*100)/100).toString();}
-function toggleLang(){var l=LANG==='zh'?'en':'zh';try{localStorage.setItem('smm_cbam_lang',l);}catch(e){}window.__LANG_SRC='manual';try{if(/[?&]lang=/.test(location.search)&&window.history&&history.replaceState&&window.URL){var u=new URL(location.href);u.searchParams.set('lang',l);history.replaceState(history.state,'',u.toString());}}catch(e){}setLang(l);}
+function toggleLang(){var ua=window.navigator&&navigator.userActivation,byUser=!ua||ua.isActive;if(!byUser&&window.__LANG_FIXED){if(LANG!==window.__LANG_FIXED)setLang(window.__LANG_FIXED);return;}var l=LANG==='zh'?'en':'zh';try{localStorage.setItem('smm_cbam_lang',l);}catch(e){}window.__LANG_SRC='manual';try{if(/[?&]lang=/.test(location.search)&&window.history&&history.replaceState&&window.URL){var u=new URL(location.href);u.searchParams.set('lang',l);history.replaceState(history.state,'',u.toString());}}catch(e){}setLang(l);}
 function setLang(l){LANG=l;document.body.classList.toggle('en',l==='en');
  document.title=l==='en'?'Iron & Steel CBAM Calculator – SMM':'钢铁 CBAM 计算器 – SMM';
  document.documentElement.setAttribute('lang',l==='en'?'en':'zh-CN');
