@@ -8,9 +8,29 @@
  "news": {
   "zh": [
    {
+    "d": "10-09",
+    "t": "SMM发布《一吨热卷进欧盟要交多少碳成本？》：按三季度价，印度热卷每吨约278欧元、中国约179欧元、日本约80欧元；本计算器已上架上海有色网「产业工具」与metal.com。",
+    "u": "https://steel.smm.cn/news/107/104148283"
+   },
+   {
+    "d": "10-08",
+    "t": "欧盟四季度钢铁配额10月1日开闸，一周内土耳其、中国大陆、印度等部分品类已用完，多为碳钢；印度热卷配额10月8日用尽，此后到港须缴50%配额外关税或顺延至一季度，CBAM另计。",
+    "u": "https://steel.smm.cn/news/107/104148882"
+   },
+   {
     "d": "10-08",
     "t": "更新节奏调整：快讯改为每周一更新（证书价公布、新法规生效等关键节点临时加更）；快讯条放慢，点「CBAM 快讯 ▾」可展开全部快讯。中文名称同步改为「钢铁 CBAM 计算器」。",
     "u": ""
+   },
+   {
+    "d": "10-07",
+    "t": "CBAM下游扩围进入三方谈判：技术层会谈9月28日启动，首轮政治三方会谈定于10月20日，第二轮暂定11月30日，目标年内达成政治协议。本工具现有184个编码不受影响。",
+    "u": "https://www.mayerbrown.com/en/insights/publications/2026/10/eus-cbam-downstream-extension-and-anti-circumvention-amendments-the-road-to-trilogue"
+   },
+   {
+    "d": "10-07",
+    "t": "证书出售、回购与费用的授权法案由原定二季度推迟至四季度，而证书2027年2月1日开售，规则存在赶不上开售的风险；原产国已付碳价抵扣细则（第九条）5月草案仍未通过。",
+    "u": "https://hq.smm.cn/stainless-steel/content/104144292"
    },
    {
     "d": "10-05",
@@ -33,6 +53,11 @@
     "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-legislation-and-guidance_en"
    },
    {
+    "d": "09-30",
+    "t": "欧委会完成CBAM豁免门槛评估：2025年4月至2026年3月，50吨门槛豁免的隐含排放占0.87%，低于1%上限，门槛维持50吨不变。",
+    "u": "https://taxation-customs.ec.europa.eu/news/cbam-de-minimis-threshold-assessment-2026-09-30_en"
+   },
+   {
     "d": "09-25",
     "t": "取向电工钢 GOES 临时保障措施生效至 2027-02-26：国别配额 + 价格门槛，7225 11 00 / 7226 11 00 在 CBAM 之外再叠一层；这两个编码不在钢铁 TRQ 范围内。",
     "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/2133/oj"
@@ -50,9 +75,29 @@
   ],
   "en": [
    {
+    "d": "Oct 9",
+    "t": "SMM publishes “What does CBAM add to a tonne of HRC?”: at the Q3 price, Indian HRC carries about €278/t, Chinese €179/t and Japanese €80/t. The calculator is now listed under Industry Tools on smm.cn and Tools on metal.com.",
+    "u": "https://www.metal.com/resources/tool/k30vxjgNa1-GQcDV6lcxJg"
+   },
+   {
+    "d": "Oct 8",
+    "t": "Q4 EU steel quotas opened on 1 Oct; within a week some categories for Türkiye, Mainland China, India and others were used up, mostly carbon steel. India’s HRC quota ran out on 8 Oct, so later arrivals pay the 50% out-of-quota duty or wait for Q1; CBAM comes on top.",
+    "u": "https://thomaschong1974-bit.github.io/eu-steel-trq/"
+   },
+   {
     "d": "Oct 8",
     "t": "Update rhythm changed: news now refreshes every Monday, with extra updates on key dates such as certificate-price releases and new rules; the ticker runs slower — click “CBAM NEWS ▾” for the full list.",
     "u": ""
+   },
+   {
+    "d": "Oct 7",
+    "t": "CBAM downstream extension moves to trilogue: technical talks began on 28 Sep, the first political trilogue is set for 20 Oct and a second provisionally for 30 Nov, aiming for a deal this year. The tool’s 184 codes are unaffected.",
+    "u": "https://www.mayerbrown.com/en/insights/publications/2026/10/eus-cbam-downstream-extension-and-anti-circumvention-amendments-the-road-to-trilogue"
+   },
+   {
+    "d": "Oct 7",
+    "t": "The delegated act on certificate sales, repurchase and fees has slipped from Q2 to Q4, while sales start on 1 Feb 2027, so the rules risk arriving late; the Article 9 rules on carbon prices paid abroad, drafted in May, are still not adopted.",
+    "u": "https://hq.smm.cn/stainless-steel/content/104144292"
    },
    {
     "d": "Oct 5",
@@ -75,6 +120,11 @@
     "u": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-legislation-and-guidance_en"
    },
    {
+    "d": "Sep 30",
+    "t": "Commission completes the CBAM de minimis assessment: for April 2025 to March 2026 the 50-tonne threshold exempts 0.87% of embedded emissions, below the 1% limit, so it stays at 50 tonnes.",
+    "u": "https://taxation-customs.ec.europa.eu/news/cbam-de-minimis-threshold-assessment-2026-09-30_en"
+   },
+   {
     "d": "Sep 25",
     "t": "Provisional safeguard on grain-oriented electrical steel in force to 26 Feb 2027: country quotas plus price thresholds; 7225 11 00 / 7226 11 00 carry it on top of CBAM and sit outside the steel TRQs.",
     "u": "https://eur-lex.europa.eu/eli/reg_impl/2026/2133/oj"
@@ -95,5 +145,5 @@
   "cert": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en",
   "news": "SMM 每周一整理（CBAM 法规、证书价、本工具更新）"
  },
- "updated": "2026-10-08T06:00:00Z"
+ "updated": "2026-10-12T02:00:00Z"
 }
